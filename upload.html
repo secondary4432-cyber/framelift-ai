@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FrameLift AI — Upload</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:20px;color:#111;background:#f7f8fa}
+    .wrap{max-width:880px;margin:20px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(13,38,59,0.06)}
+    h2{margin-top:0}
+    .drop{border:2px dashed #d1d5db;padding:28px;border-radius:8px;text-align:center;background:#fbfdff}
+    .drop input{display:none}
+    .preview{margin-top:16px}
+    video{max-width:100%;border-radius:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;background:#06b6d4;color:#fff;border:0;cursor:pointer}
+    .small{font-size:13px;color:#6b7280;margin-top:8px}
+    .notice{background:#fff7ed;padding:10px;border-radius:6px;margin-top:12px;color:#92400e}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Upload & Send to Draft</h2>
+    <p class="small">If you came here after OAuth redirect, an authorization code will be present in the URL. This page supports demo/testing without backend.</p>
+
+    <label class="drop" id="dropLabel">
+      <strong>Drag & drop a video here</strong><br>
+      or <input type="file" id="fileInput" accept="video/*">
+    </label>
+
+    <div class="preview" id="preview"></div>
+
+    <div style="margin-top:12px">
+      <button id="sendBtn" class="btn" disabled>Send to TikTok (Draft)</button>
+      <div class="small">Accepted: mp4, mov. Max recommended < 50MB for demo.</div>
+    </div>
+
+    <div class="notice" id="notice" style="display:none"></div>
+  </div>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const preview = document.getElementById('preview');
+  const sendBtn = document.getElementById('sendBtn');
+  const notice = document.getElementById('notice');
+
+  document.getElementById('dropLabel').addEventListener('click', (e) => {
+    if (e.target.tagName !== 'INPUT') {
+      fileInput.click();
+    }
+  });
+
+  fileInput.addEventListener('change', handleFiles);
+
+  function handleFiles(e){
+    const f = e.target.files[0];
+    if(!f) return;
+    const url = URL.createObjectURL(f);
+    preview.innerHTML = '<p><strong>Preview</strong></p><video controls src="'+url+'"></video>';
+    sendBtn.disabled = false;
+    notice.style.display = 'none';
+  }
+
+  sendBtn.addEventListener('click', async () => {
+    notice.style.display = 'block';
+    notice.textContent = 'Preparing to upload... (simulation)';
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if(code){
+      notice.textContent = 'Authorization code detected. Backend needed for token exchange.';
+    } else {
+      notice.textContent = 'No authorization code. This is only a demo UI.';
+    }
+    setTimeout(() => {
+      notice.textContent = 'Simulation complete — video would be uploaded to TikTok Draft via backend API.';
+    }, 1500);
+  });
+</script>
+</body>
+</html>
