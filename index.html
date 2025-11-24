@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FrameLift AI — Home</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:32px;color:#111;background:#f7f8fa}
+    .card{max-width:840px;margin:40px auto;padding:28px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(13,38,59,0.06)}
+    header{display:flex;gap:16px;align-items:center}
+    img.logo{width:72px;height:72px;border-radius:14px;object-fit:cover}
+    h1{margin:0;font-size:22px}
+    p.lead{color:#4b5563}
+    .actions{margin-top:18px;display:flex;gap:12px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+    .btn.primary{background:#06b6d4;color:#fff}
+    .btn.ghost{background:transparent;border:1px solid #e6edf2}
+    footer{margin-top:16px;font-size:13px;color:#6b7280}
+    small.link{color:#0369a1}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <header>
+      <img class="logo" src="https://via.placeholder.com/100" alt="FrameLift AI logo">
+      <div>
+        <h1>FrameLift AI</h1>
+        <p class="lead">Trim, prepare and organize short video clips. Connect your TikTok account to send prepared clips to Draft for review and posting.</p>
+      </div>
+    </header>
+
+    <div class="actions">
+      <button class="btn primary" id="loginBtn">Login with TikTok</button>
+      <a class="btn ghost" href="upload.html">Go to Upload</a>
+      <a class="btn" href="FrameLift_Terms_of_Service.html" target="_blank">Terms</a>
+      <a class="btn" href="FrameLift_Privacy_Policy.html" target="_blank">Privacy</a>
+    </div>
+
+    <footer>
+      <p>If you see any issues, contact <a class="link" href="mailto:developer@framelift.ai">developer@framelift.ai</a></p>
+    </footer>
+  </div>
+
+<script>
+  const CLIENT_KEY = "YOUR_TIKTOK_CLIENT_KEY";
+  const REDIRECT_URI = "https://secondary4432-cyber.github.io/framelift-ai/upload.html";
+  const STATE = "framelift_state_123";
+
+  document.getElementById('loginBtn').addEventListener('click', () => {
+    const authUrl = "https://www.tiktok.com/v2/auth/authorize/?" +
+      "client_key=" + encodeURIComponent(CLIENT_KEY) +
+      "&response_type=code" +
+      "&scope=user.info.basic,video.upload" +
+      "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
+      "&state=" + encodeURIComponent(STATE);
+    window.location.href = authUrl;
+  });
+</script>
+</body>
+</html>
